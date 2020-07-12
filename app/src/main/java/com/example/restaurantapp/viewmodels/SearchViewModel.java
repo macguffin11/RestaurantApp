@@ -9,9 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.restaurantapp.models.Search;
 import com.example.restaurantapp.repositories.SearchRepository;
+import com.example.restaurantapp.utils.Config;
 
 public class SearchViewModel extends ViewModel {
-    private static final String API_KEY = "77778ae6116592fd3e767445ebad15ab";
     private SearchRepository searchRepository;
     private MutableLiveData<Search> searchMutableLiveData;
 
@@ -21,7 +21,7 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void search(String keyword) {
-        searchRepository.search(keyword, API_KEY);
+        searchRepository.search(keyword, Config.API_KEY);
     }
 
     public LiveData<Search> getSearchLiveData() {

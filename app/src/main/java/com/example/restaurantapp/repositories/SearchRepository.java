@@ -14,8 +14,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchRepository {
-    private static final String BASE_URL = "https://developers.zomato.com/api/v2.1/";
-
     private ApiInterface apiInterface;
     private MutableLiveData<Search> searchMutableLiveData;
 
