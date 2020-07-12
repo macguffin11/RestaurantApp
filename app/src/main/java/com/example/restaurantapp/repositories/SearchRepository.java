@@ -5,15 +5,13 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.restaurantapp.apis.ApiClient;
 import com.example.restaurantapp.apis.ApiInterface;
 import com.example.restaurantapp.models.Search;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchRepository {
     private static final String BASE_URL = "https://developers.zomato.com/api/v2.1/";
@@ -23,18 +21,7 @@ public class SearchRepository {
 
     public SearchRepository() {
         searchMutableLiveData = new MutableLiveData<>();
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().retryOnConnectionFailure(true).addInterceptor(interceptor).build();
-
-        apiInterface = new retrofit2.Retrofit.Builder()
-                .client(client)
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiInterface.class);
-
+        apiInterface = ApiClient.providesHttpAdapter().create(ApiInterface.class);
     }
 
     public void search(String keyword, String apiKey) {
@@ -51,8 +38,7 @@ public class SearchRepository {
                     @Override
                     public void onFailure(Call<Search> call, Throwable t) {
                         searchMutableLiveData.setValue(null);
-                        Log.d("onFailure", "onFailure: null");
-                        Log.d("onFailure", "onFailure: "+t.getMessage());
+                        Log.d("Call Failure", "onFailure: "+t.getMessage());
                     }
                 });
     }
