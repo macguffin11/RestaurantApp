@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,14 +21,12 @@ import com.example.restaurantapp.R;
 import com.example.restaurantapp.models.Restaurants;
 import com.example.restaurantapp.views.DetailActivity;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.SearchHolder> {
     private List<Restaurants> results = new ArrayList<>();
+    private Context mContext;
 
     Bundle bundle = null;
     Intent intent = null;
@@ -73,17 +73,25 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
 
         String averagePrice = restaurants.getRestaurant().getCurrency()
                 +Integer.toString(restaurants.getRestaurant().getAverageCostForTwo());
-        
+
         bundle.putString("harga",averagePrice+" untuk 2 orang");
 
         holder.averageCostForTwoTextView.setText(averagePrice);
-
-
 
         Glide.with(holder.itemView)
                 .load(restaurants.getRestaurant().getFeaturedImage())
                 .placeholder(R.drawable.ic_image_not_found)
                 .into(holder.smallThumbnailImageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyDataSetChanged();
+                intent = new Intent(v.getContext(), DetailActivity.class);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -91,23 +99,25 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
         return results.size();
     }
 
-    public void setResults(List<Restaurants> results) {
+    public void setResults(List<Restaurants> results, Context context) {
         this.results = results;
+        this.mContext = context;
         notifyDataSetChanged();
     }
 
-    class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class SearchHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private RatingBar ratingBar;
         private TextView aggregateRatingTextView;
         private TextView statusTextView;
         private TextView averageCostForTwoTextView;
         private ImageView smallThumbnailImageView;
+        private CardView cardView;
         private final Context context;
 
         public SearchHolder(@NonNull View itemView) {
             super(itemView);
-            context= itemView.getContext();
+            context = itemView.getContext();
 
             nameTextView = itemView.findViewById(R.id.name);
             ratingBar = itemView.findViewById(R.id.ratingBar);
@@ -115,17 +125,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
             statusTextView = itemView.findViewById(R.id.status);
             averageCostForTwoTextView = itemView.findViewById(R.id.averageCostForTwo);
             smallThumbnailImageView = itemView.findViewById(R.id.smallThumbnail);
-            itemView.setClickable(true);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-
-            intent = new Intent(context, DetailActivity.class);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }

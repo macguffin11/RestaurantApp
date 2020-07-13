@@ -70,7 +70,7 @@ public class RestaurantFragment extends Fragment {
             public void onChanged(Search search) {
                 Log.d("TAG", "onChanged: " + (search != null));
                 if (search != null) {
-                    adapter.setResults(search.getRestaurants());
+                    adapter.setResults(search.getRestaurants(), getContext());
                 }
             }
         });
@@ -87,6 +87,8 @@ public class RestaurantFragment extends Fragment {
 
         keywordEditText = view.findViewById(R.id.searchKeyword);
 
+        getCurrentLocation();
+
         keywordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -102,8 +104,6 @@ public class RestaurantFragment extends Fragment {
             performSearch();
         }
 
-        checkPermission();
-
         return view;
     }
 
@@ -114,13 +114,13 @@ public class RestaurantFragment extends Fragment {
             @Override
             public void onChanged(Geocode geocode) {
                 if (geocode != null) {
-                    if (keyword.matches("")){
+                    if (keyword.matches("")) {
                         viewModel.search(
                                 geocode.getLocation().getEntityId(),
                                 geocode.getLocation().getEntityType(),
                                 geocode.getLocation().getLatitude(),
                                 geocode.getLocation().getLongitude());
-                    }else{
+                    } else {
                         viewModel.search(
                                 keyword,
                                 geocode.getLocation().getEntityId(),
@@ -135,7 +135,7 @@ public class RestaurantFragment extends Fragment {
     private void checkPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
         ) {
-            getCurrentLocation();
+            return;
         } else {
             requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -144,12 +144,13 @@ public class RestaurantFragment extends Fragment {
     }
 
     private void requestPermissions(FragmentActivity activity, String[] strings, int requestCodeLocationPermission) {
-        if (ActivityCompat.checkSelfPermission(getActivity(), strings[0]) == PackageManager.PERMISSION_GRANTED ) {
-            getCurrentLocation();
+        if (ActivityCompat.checkSelfPermission(getActivity(), strings[0]) == PackageManager.PERMISSION_GRANTED) {
+            return;
         }
     }
 
     private void getCurrentLocation() {
+        checkPermission();
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,10 +9,13 @@
     tools:context="views.DetailActivity">
 
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/fotoRestoraninRestaurantAct"
@@ -28,8 +32,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/restoranNameinRestaurantAct"
@@ -38,8 +42,8 @@
                     android:layout_marginTop="10dp"
                     android:text="Restaurant_Name"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -47,29 +51,29 @@
                     android:layout_marginTop="10dp"
                     android:text="Detail Restoran"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/restoranDescinRestaurantAct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
                         android:layout_marginTop="5dp"
-                        android:text="Deskripsi Resto" />
+                        android:text="Deskripsi Resto"
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <RatingBar
                             android:id="@+id/ratingBar"
@@ -84,17 +88,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
+                            android:text="3.5"
                             android:textColor="#000000"
-                            android:text="3.5"/>
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Harga rata-rata :"/>
+                        android:text="Harga rata-rata :" />
 
                     <TextView
                         android:id="@+id/restoranIsDeliveryinRestaurantAct"
@@ -111,8 +115,8 @@
                     android:layout_marginTop="10dp"
                     android:text="Lokasi"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -127,8 +131,7 @@
                         <org.osmdroid.views.MapView
                             android:id="@+id/mapView"
                             android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            />
+                            android:layout_height="250dp" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -140,8 +143,8 @@
                     android:layout_marginTop="10dp"
                     android:text="Reviews"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
