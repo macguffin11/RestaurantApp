@@ -71,16 +71,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
                         Color.parseColor("#42b549") : Color.parseColor("#ea2626")
                 );
 
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        String averagePrice = restaurants.getRestaurant().getCurrency()
+                +Integer.toString(restaurants.getRestaurant().getAverageCostForTwo());
+        
+        bundle.putString("harga",averagePrice+" untuk 2 orang");
 
-        Currency currency = Currency.getInstance(restaurants.getRestaurant().getCurrency());
-        numberFormat.setCurrency(currency);
-
-        String averagePrice = numberFormat.format(restaurants.getRestaurant().getAverageCostForTwo())
-                +" untuk 2 orang";
-        bundle.putString("harga",averagePrice);
-
-        holder.averageCostForTwoTextView.setText(numberFormat.format(restaurants.getRestaurant().getAverageCostForTwo()));
+        holder.averageCostForTwoTextView.setText(averagePrice);
 
 
 
