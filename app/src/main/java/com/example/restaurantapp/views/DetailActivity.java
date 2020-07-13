@@ -1,17 +1,20 @@
 package com.example.restaurantapp.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,18 +31,22 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends AppCompatActivity {
 
     ImageView foto;
     TextView alamat,nama;
     TextView rating;
     TextView harga;
     MapView map;
+    RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -71,6 +78,7 @@ public class DetailActivity extends Activity {
         nama=findViewById(R.id.restoranNameinRestaurantAct);
         rating=findViewById(R.id.restoranStarinRestaurantAct);
         harga=findViewById(R.id.restoranIsDeliveryinRestaurantAct);
+        ratingBar=findViewById(R.id.ratingBar);
 
         Bundle bundle = intent.getExtras();
         Glide.with(this)
@@ -79,7 +87,10 @@ public class DetailActivity extends Activity {
                 .into(foto);
         harga.setText(intent.getStringExtra("harga"));
         nama.setText(intent.getStringExtra("nama"));
-        rating.setText(Double.toString(bundle.getDouble("rating"))+ " Star");
+        getSupportActionBar().setTitle(intent.getStringExtra("nama"));
+        ratingBar.setRating((float) bundle.getDouble("rating"));
+        rating.setText(Double.toString(bundle.getDouble("rating")));
+        rating.setTextColor(Color.parseColor(intent.getStringExtra("ratingcolor")));
         alamat.setText(intent.getStringExtra("alamat"));
 
         //init Map Latitude and Point
@@ -97,6 +108,16 @@ public class DetailActivity extends Activity {
 
         mapController.setZoom(16);
         mapController.setCenter(startPoint);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id  = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {

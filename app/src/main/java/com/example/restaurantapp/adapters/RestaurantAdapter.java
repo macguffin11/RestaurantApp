@@ -47,15 +47,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
         bundle=new Bundle();
 
         Double rating = restaurants.getRestaurant().getUserRating().getAggregateRating();
-        String averagePrice = "Harga rata-rata untuk 2 orang : "
-                +Integer.toString(restaurants.getRestaurant().getAverageCostForTwo())
-                +restaurants.getRestaurant().getCurrency();
 
         bundle.putString("alamat", restaurants.getRestaurant().getLocation().getAddress());
         bundle.putDouble("latitude",restaurants.getRestaurant().getLocation().getLatitude());
         bundle.putDouble("longitude",restaurants.getRestaurant().getLocation().getLongitude());
-        bundle.putString("harga",averagePrice);
         bundle.putDouble("rating",rating);
+        bundle.putString("ratingcolor","#"+restaurants.getRestaurant().getUserRating().getRatingColor());
         bundle.putString("nama",restaurants.getRestaurant().getName());
         bundle.putString("thumbnail",restaurants.getRestaurant().getFeaturedImage());
 
@@ -78,6 +75,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Se
 
         Currency currency = Currency.getInstance(restaurants.getRestaurant().getCurrency());
         numberFormat.setCurrency(currency);
+
+        String averagePrice = numberFormat.format(restaurants.getRestaurant().getAverageCostForTwo())
+                +" untuk 2 orang";
+        bundle.putString("harga",averagePrice);
 
         holder.averageCostForTwoTextView.setText(numberFormat.format(restaurants.getRestaurant().getAverageCostForTwo()));
 
