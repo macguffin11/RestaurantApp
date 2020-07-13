@@ -8,29 +8,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Restaurant Search"
-        android:textSize="24sp"/>
+        android:gravity="left"
+        android:text="Nearby Restaurants"
+        android:textSize="15sp"
+        android:layout_marginBottom="8dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:id="@+id/searchKeyword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Keyword"
-            android:id="@+id/searchKeyword"
-            android:gravity="center_horizontal" />
+            android:gravity="clip_horizontal"
+            android:hint="Search Restaurants" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Search"
-        android:id="@+id/searchButton" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

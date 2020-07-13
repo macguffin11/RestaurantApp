@@ -2,7 +2,6 @@ package com.example.restaurantapp.repositories;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.restaurantapp.apis.ApiClient;
@@ -22,23 +21,38 @@ public class SearchRepository {
         apiInterface = ApiClient.providesHttpAdapter().create(ApiInterface.class);
     }
 
-    public void search(String keyword, String apiKey) {
-        Call<Search> listCall = apiInterface.search(keyword, apiKey);
-        Log.d("TAG", "search: "+(listCall == null));
+    public void search(int entityId, String entityType, double lat, double lon, String apiKey) {
+        Call<Search> listCall = apiInterface.search(entityId, entityType, lat, lon, apiKey);
         listCall.enqueue(new Callback<Search>() {
-                    @Override
-                    public void onResponse(Call<Search> call, Response<Search> response) {
-                        if (response.isSuccessful()) {
-                            searchMutableLiveData.setValue(response.body());
-                        }
-                    }
+            @Override
+            public void onResponse(Call<Search> call, Response<Search> response) {
+                if (response.isSuccessful()) {
+                    searchMutableLiveData.setValue(response.body());
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<Search> call, Throwable t) {
-                        searchMutableLiveData.setValue(null);
-                        Log.d("Call Failure", "onFailure: "+t.getMessage());
-                    }
-                });
+            @Override
+            public void onFailure(Call<Search> call, Throwable t) {
+                searchMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void search(String q, int entityId, double lat, double lon, String apiKey) {
+        Call<Search> listCall = apiInterface.search(q, entityId, lat, lon, apiKey);
+        listCall.enqueue(new Callback<Search>() {
+            @Override
+            public void onResponse(Call<Search> call, Response<Search> response) {
+                if (response.isSuccessful()) {
+                    searchMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Search> call, Throwable t) {
+                searchMutableLiveData.setValue(null);
+            }
+        });
     }
 
     public MutableLiveData<Search> getSearchMutableLiveData() {

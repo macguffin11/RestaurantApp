@@ -16,9 +16,6 @@ public class Review {
     @SerializedName("rating_color")
     @Expose
     private String ratingColor;
-    @SerializedName("review_time_friendly")
-    @Expose
-    private String reviewTimeFriendly;
     @SerializedName("rating_text")
     @Expose
     private String ratingText;
@@ -65,14 +62,6 @@ public class Review {
 
     public void setRatingColor(String ratingColor) {
         this.ratingColor = ratingColor;
-    }
-
-    public String getReviewTimeFriendly() {
-        return reviewTimeFriendly;
-    }
-
-    public void setReviewTimeFriendly(String reviewTimeFriendly) {
-        this.reviewTimeFriendly = reviewTimeFriendly;
     }
 
     public String getRatingText() {

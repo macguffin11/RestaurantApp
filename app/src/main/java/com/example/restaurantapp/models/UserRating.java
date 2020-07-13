@@ -13,9 +13,6 @@ public class UserRating {
     @SerializedName("rating_color")
     @Expose
     private String ratingColor;
-    @SerializedName("votes")
-    @Expose
-    private int votes;
 
     public double getAggregateRating() {
         return aggregateRating;
@@ -39,13 +36,5 @@ public class UserRating {
 
     public void setRatingColor(String ratingColor) {
         this.ratingColor = ratingColor;
-    }
-
-    public int getVotes() {
-        return votes;
-    }
-
-    public void setVotes(int votes) {
-        this.votes = votes;
     }
 }
